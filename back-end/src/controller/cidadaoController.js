@@ -1,11 +1,9 @@
-const { novaConexao, executarQuery, fecharConexaoEObterResultado } = require('../bd/driver'); 
+const { executarQuery } = require('../bd/driver'); 
 
-const obterCidadoes = async () => {
+const obterCidadoes = async (conexao) => {
     const QUERY_GET_CIDADOES = 'SELECT * FROM Cidadao';
 
-    return novaConexao()
-        .then(conexao => executarQuery(conexao, QUERY_GET_CIDADOES))
-        .then(flags => fecharConexaoEObterResultado(flags))
+    return executarQuery(conexao, QUERY_GET_CIDADOES)
         .catch(erro => console.error(erro));
 }
 

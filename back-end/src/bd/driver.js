@@ -10,48 +10,29 @@ const config = {
 
 
 const novaConexao = () => {
-    return new Promise((resolve, reject) => {
-        try {
-            const conexao = mysql.createConnection(config);
-            resolve(conexao);
-        } catch (erro) {
-            reject(erro);
-        }
-    });
+    return mysql.createConnection(config);
 }
 
 const executarQuery = (conexao, query) => {
-    let flags = {
-        conexao,
-        query
-    }
     return new Promise((resolve, reject) => {
         conexao.query(query, (erro, resultado) => {
             if (erro) {
                 reject(erro);
             } else {
-                flags.resultado = resultado;
-                resolve(flags);
+                resolve(resultado);
             }
         })
     })
 }
 
-const fecharConexaoEObterResultado = (flags) => {
-    const { conexao, resultado } = flags;
-
-    return new Promise((resolve) => {
-        if(conexao && conexao.state != 'disconnected') {
-            conexao.end()
-            resolve(resultado);
-        } else {
-            resolve(flags);
-        }
-    });
+const fecharConexao= (conexao) => {
+    if (conexao && conexao.state != 'disconnected') {
+        conexao.end()
+    }
 }
 
 module.exports = {
     novaConexao,
     executarQuery,
-    fecharConexaoEObterResultado
+    fecharConexao
 }
