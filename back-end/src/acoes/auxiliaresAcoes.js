@@ -6,20 +6,20 @@ const {
     obterOcupacoes,
     obterRacasCores,
     obterUFs,
-    obterVinculosEmpregaticios
+    obterVinculosEmpregaticios,
 } = require('../controller/auxiliaresController');
 
 const obterTabelasAuxiliares = async (requisicao, resposta) => {
     const conexao = novaConexao();
-    let erroAoCapturarTabela = false;
+    let erroAoCapturarTabelas = false;
 
-    const escolaridades = await obterEscolaridades(conexao).catch(erro => erroAoCapturarTabela = true);
-    const estadosCivis = await obterEstadosCivis(conexao).catch(erro => erroAoCapturarTabela = true);
-    const generosDeclarados  = await obterGenerosDeclarados(conexao).catch(erro => erroAoCapturarTabela = true);
-    const ocupacoes = await obterOcupacoes(conexao).catch(erro => erroAoCapturarTabela = true);
-    const racasCores = await obterRacasCores(conexao).catch(erro => erroAoCapturarTabela = true);
-    const ufs = await obterUFs(conexao).catch(erro => erroAoCapturarTabela = true);
-    const vinculosEmpregaticios = await obterVinculosEmpregaticios(conexao).catch(erro => erroAoCapturarTabela = true);
+    const escolaridades = await obterEscolaridades(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const estadosCivis = await obterEstadosCivis(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const generosDeclarados  = await obterGenerosDeclarados(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const ocupacoes = await obterOcupacoes(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const racasCores = await obterRacasCores(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const ufs = await obterUFs(conexao).catch(erro => erroAoCapturarTabelas = true);
+    const vinculosEmpregaticios = await obterVinculosEmpregaticios(conexao).catch(erro => erroAoCapturarTabelas = true);
 
     const tabelasAuxilares = {
         escolaridades,
@@ -30,7 +30,7 @@ const obterTabelasAuxiliares = async (requisicao, resposta) => {
         ufs,
         vinculosEmpregaticios
     }
-    if (!erroAoCapturarTabela) {
+    if (!erroAoCapturarTabelas) {
         resposta.send(200, tabelasAuxilares);
     } else {
         resposta.send(500, tabelasAuxilares);

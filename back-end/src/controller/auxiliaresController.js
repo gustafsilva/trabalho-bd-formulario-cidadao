@@ -40,7 +40,16 @@ const obterVinculosEmpregaticios = (conexao) => {
     const QUERY_OBTER_VINCULOS_EMPREGATICIOS = 'SELECT * FROM Vinculo_Empregaticio';
 
     return executarQuery(conexao, QUERY_OBTER_VINCULOS_EMPREGATICIOS)
-        .catch(erro => console.erro('Ao obter todos Vínculos Empregatícios', erro));
+        .catch(erro => console.error('Ao obter todos Vínculos Empregatícios', erro));
+}
+
+const novaRendaGovernamental = (conexao, novaRendaGovernamental) => {
+    const { nome, valor } = novaRendaGovernamental;
+    const QUERY_NOVA_RENDA_GOVERNAMENTAL = `INSERT INTO Renda_Governamental (Nome_Renda_Governamental, Valor_Renda_Governamental) VALUES (${nome}, ${valor});`;
+
+    return executarQuery(conexao, QUERY_NOVA_RENDA_GOVERNAMENTAL)
+        .then(resultado => console.log(resultado))
+        .catch(erro => console.error('Ao criar nova Renda Governamental', erro));
 }
 
 module.exports = {
@@ -50,5 +59,6 @@ module.exports = {
     obterOcupacoes,
     obterRacasCores,
     obterUFs,
-    obterVinculosEmpregaticios
+    obterVinculosEmpregaticios,
+    novaRendaGovernamental
 }
