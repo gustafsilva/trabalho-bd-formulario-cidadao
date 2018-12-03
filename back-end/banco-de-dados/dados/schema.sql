@@ -46,6 +46,7 @@ CREATE TABLE Ocupacao (
 
 CREATE TABLE Renda_Governamental (
   Cod_Renda_Governamental INT NOT NULL AUTO_INCREMENT,
+  CPF_Cidadao CHAR(11) NOT NULL,
   Nome_Renda_Governamental VARCHAR(50) NOT NULL,
   Valor_Renda_Governamental FLOAT NOT NULL,
   PRIMARY KEY ( Cod_Renda_Governamental )
@@ -79,6 +80,8 @@ CREATE TABLE Cidadao (
   FOREIGN KEY ( Cod_Ocupacao ) REFERENCES Ocupacao(Cod_Ocupacao)
 );
 
+/* Adicionando contratos adicionais */
+ALTER TABLE Renda_Governamental ADD CONSTRAINT FK_Renda_Governamental_Cidadao FOREIGN KEY (CPF_Cidadao) REFERENCES Cidadao(CPF);
 
 /* Criação dos Índices */
 CREATE INDEX Indice_Cidadao_Nome ON Cidadao(Nome_Cidadao);
