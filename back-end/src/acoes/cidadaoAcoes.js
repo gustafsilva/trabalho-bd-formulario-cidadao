@@ -1,5 +1,5 @@
 const { novaConexao, fecharConexao } = require('../bd/driver');
-const { obterCidadoes, obterCidadoesPorCPF} = require('../controller/cidadaoController');
+const { obterCidadoes, obterCidadoesPorCPF, novoCidadao } = require('../controller/cidadaoController');
 
 const buscarTodosOsCidadoes = async (requisicao, resposta) => {
     const conexao = novaConexao();
@@ -32,7 +32,26 @@ const buscarCidadaoPorCPF = async (requisicao, resposta) => {
     fecharConexao(conexao);
 }
 
+const criarCidadao = async (requisicao, resposta) => {
+    console.log('entrou');
+    const conexao = novaConexao();
+    let erroAoCriarNovoCidadao = false;
+    let { cidadao } = requisicao.body;
+    console.log(cidadao);
+
+    cidadao = await novoCidadao(conexao, cidadao).catch(() => erroAoCriarNovoCidadao = true);
+
+    if(!erroAoCriarNovoCidadao) {
+        resposta.send(200, cidadao);
+    } else {
+        resposta.send(500, {});
+    }
+
+    fecharConexao(conexao);
+}
+
 module.exports = {
     buscarTodosOsCidadoes,
-    buscarCidadaoPorCPF
+    buscarCidadaoPorCPF,
+    criarCidadao
 }

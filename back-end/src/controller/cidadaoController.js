@@ -23,8 +23,49 @@ const verificarNovoCPF = (conexao, novoCPF) => {
         .catch(erro => console.error('Ao verificar novo CPF Cidadão', erro));
 }
 
+const novoCidadao = (conexao, cidadao) => {
+    const QUERY_NOVO_CIDADAO = `INSERT INTO Cidadao (
+        CPF,
+        Nome_Cidadao,
+        Nome_Social,
+        Nome_Mae,
+        Data_Nascimento,
+        Sexo_Nascimento,
+        Renda_Individual,
+        Renda_Familiar,
+        Cod_Raca_Cor,
+        Cod_UF,
+        Cod_Estado_Civil,
+        Cod_Genero_Declarado,
+        Cod_Escolaridade,
+        Cod_Vinculo_Empregaticio,
+        Cod_Ocupacao
+    )
+    VALUES (
+        '${cidadao.CPF}',
+        '${cidadao.Nome_Cidadao}',
+        '${cidadao.Nome_Social}',
+        '${cidadao.Nome_Mae}',
+        '2018-12-12',
+        '${cidadao.Sexo_Nascimento}',
+        ${cidadao.Renda_Individual},
+        ${cidadao.Renda_Familiar},
+        ${cidadao.Cod_Raca_Cor},
+        ${cidadao.Cod_UF},
+        ${cidadao.Cod_Estado_Civil},
+        ${cidadao.Cod_Genero_Declarado},
+        ${cidadao.Cod_Escolaridade},
+        ${cidadao.Cod_Vinculo_Empregaticio},
+        ${cidadao.Cod_Ocupacao}
+    );`;
+
+    return executarQuery(conexao, QUERY_NOVO_CIDADAO)
+        .catch(erro => console.error('Ao cadastrar novo Cidadão', erro));
+}
+
 module.exports = {
     obterCidadoes,
     obterCidadoesPorCPF,
-    verificarNovoCPF
+    verificarNovoCPF,
+    novoCidadao
 }
