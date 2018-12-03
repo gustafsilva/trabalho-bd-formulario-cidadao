@@ -1,9 +1,9 @@
-const { obterTodosOsCidadoes } = require('../acoes/cidadaoAcoes')
+const { buscarTodosOsCidadoes, buscarCidadaoPorCPF } = require('../acoes/cidadaoAcoes')
 
 const rotasCidadao = (servidor) => {
-    servidor.get('/cidadoes', obterTodosOsCidadoes);
+    servidor.get('/cidadoes', buscarTodosOsCidadoes);
 
-    servidor.get('/cidadao/:cpf', () => {});
+    servidor.get('/cidadao/:cpf', buscarCidadaoPorCPF);
 
     servidor.post('/cidadao', () => {});
 }
