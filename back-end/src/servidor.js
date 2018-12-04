@@ -9,11 +9,13 @@ const plugins = restify.plugins;
 servidor.use(plugins.queryParser());
 servidor.use(plugins.bodyParser());
 
-const cors = corsMiddleware({
-    origins: ['http://localhost:3000'],
-});
-servidor.pre(cors.preflight);
-servidor.use(cors.actual);
+servidor.use(
+    function crossOrigin(req,res,next){
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      return next();
+    }
+);
 
 
 const { rotasCidadao, rotasAuxiliares } = rotas;
