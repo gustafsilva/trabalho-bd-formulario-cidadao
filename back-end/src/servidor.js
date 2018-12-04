@@ -9,11 +9,10 @@ const plugins = restify.plugins;
 servidor.use(plugins.queryParser());
 servidor.use(plugins.bodyParser());
 
-servidor.use(
-    function crossOrigin(req,res,next){
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-      return next();
+servidor.use((requisicao, resposta, proximo) => {
+      resposta.header("Access-Control-Allow-Origin", "*");
+      resposta.header("Access-Control-Allow-Headers", "X-Requested-With");
+      return proximo();
     }
 );
 
