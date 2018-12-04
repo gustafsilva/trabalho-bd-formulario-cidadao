@@ -8,23 +8,135 @@ class CadastroCidadao extends Component {
 
         this.state = {
             carregando: true,
-            cidadoes: []
+            tabelasAuxiliares: {},
+            cidadao: {
+                Nome_Cidadao: '',
+                Nome_Social: '',
+                Nome_Mae: '',
+                Data_Nascimento: '',
+                Sexo_Nascimento: 'Masculino',
+                Renda_Individual: 0,
+                Renda_Familiar: 0,
+                Cod_Raca_Cor: 1,
+                Cod_UF: 1,
+                Cod_Estado_Civil: 1,
+                Cod_Genero_Declarado: 1,
+                Cod_Escolaridade: 1,
+                Cod_Vinculo_Empregaticio: 1,
+                Cod_Ocupacao: 1,
+                Renda_Governamental: {
+                    Nome_Renda_Governamental: '',
+                    Valor: 0
+                }
+
+            }
         }
     }
 
     componentDidMount() {
-        const CAPTURAR_TODOS_CIDADOES = 'http://localhost:3000/cidadoes';
+        const CAPTURAR_TABELAS_AUXILIARES = 'http://localhost:3000/auxiliares/cidadao';
 
-        fetch(CAPTURAR_TODOS_CIDADOES)
+        fetch(CAPTURAR_TABELAS_AUXILIARES)
             .then(resposta => resposta.json())
-            .then(cidadoes => {
+            .then(tabelasAuxiliares => {
                 this.setState({
+                    ...this.state,
                     carregando: false,
-                    cidadoes
+                    tabelasAuxiliares
                 })
             })
-            .catch(erro => console.error('Erro ao capturar todos os Cidadões', erro));
+            .catch(erro => console.error('Erro ao capturar tabelas auxiliares', erro));
     }
+
+    mudarEstadoCidadao(novoValor) {
+        this.setState({
+            ...this.state,
+            cidadao: {
+                ...this.state.cidadao,
+                ...novoValor
+            }
+        })
+    }
+
+    renderSexoNascimento() {
+        return (
+            <div class="field">
+                <label class="label" for="sexo-nascimento">Sexo nascimento:</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="sexo-nascimento" value={this.state.cidadao.Sexo_Nascimento} onChange={(evento) => this.mudarEstadoCidadao({ Sexo_Nascimento: evento.target.value })}>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    renderGeneroDeclarado() {
+        return (
+            <div class="field">
+                <label class="label" for="genero-declarado">Gênero declarado:</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="genero-declarado" value={this.state.cidadao.Cod_Genero_Declarado} onChange={(evento) => this.mudarEstadoCidadao({ Cod_Genero_Declarado: evento.target.value })}>
+                            {this.state.tabelasAuxiliares.generosDeclarados.map(genero => (
+                                <option value={genero.Cod_Genero_Declarado}>{genero.Nome_Genero_Declarado}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    renderUF() {
+        return (
+            <div class="field">
+                <label class="label" for="uf-nascimento">UF de nascimento:</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="uf-nascimento" value={this.state.cidadao.Cod_UF} onChange={(evento) => this.mudarEstadoCidadao({ Cod_UF: evento.target.value })}>
+                            {this.state.tabelasAuxiliares.ufs.map(uf => (
+                                <option value={uf.Cod_UF}>{uf.Nome_UF}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    renderRacaCor() {
+        return (
+            <div class="field">
+                <label class="label" for="raca-cor">Raça/cor:</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="raca-cor" value={this.state.cidadao.Cod_Raca_Cor} onChange={(evento) => this.mudarEstadoCidadao({ Cod_Raca_Cor: evento.target.value })}>
+                            {this.state.tabelasAuxiliares.racasCores.map(raca => (
+                                <option value={raca.Cod_Raca_Cor}>{raca.Nome_Raca_Cor}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    renderEstadoCivil() {
+
+    }
+    renderEscolaridade() {
+
+    }
+    renderOcupacao() {
+
+    }
+    renderViculoEmpregaticio() {
+
+    }
+    renderRendaGovernamental() {
+
+    }
+
 
     renderFormulario() {
         if (this.state.carregando) {
@@ -58,51 +170,11 @@ class CadastroCidadao extends Component {
                 </div>
                 <div class="field is-horizontal">
                     <div class="field-body">
-                        <div class="field">
-                            <label class="label" for="sexo-nascimento">Sexo nascimento:</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select name="sexo-nascimento">
-                                        <option>Masculino</option>
-                                        <option>Feminino</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="genero-declarado">Gênero declarado:</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select name="genero-declarado">
-                                        <option>Masculino</option>
-                                        <option>Feminino</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="uf-nascimento">UF de nascimento:</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select name="uf-nascimento">
-                                        <option>Masculino</option>
-                                        <option>Feminino</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label" for="raca-cor">Raça/cor:</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select name="raca-cor">
-                                        <option>Masculino</option>
-                                        <option>Feminino</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-    
+                        {this.renderSexoNascimento()}
+                        {this.renderGeneroDeclarado()}
+                        {this.renderUF()}
+                        {this.renderRacaCor()}
+
                     </div>
                 </div>
                 <div class="field is-horizontal">
@@ -180,7 +252,7 @@ class CadastroCidadao extends Component {
                                     </select>
                                 </div>
                             </div>
-    
+
                         </div>
                         <div class="field">
                             <label class="label" for="valor-beneficio-renda-governamental">Valor:</label>
@@ -192,7 +264,7 @@ class CadastroCidadao extends Component {
                             </div>
                         </div>
                     </div>
-    
+
                 </div>
                 <div class="field">
                     <label class="label" for="cartao-sus">Cartão Nacional do SUS:</label>
