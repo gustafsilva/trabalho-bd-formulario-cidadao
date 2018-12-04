@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+
 import Header from './Header';
 
 class ListaCidadoes extends Component {
@@ -69,7 +70,7 @@ class ListaCidadoes extends Component {
                     {this.renderCidadoes()}
                 </section>
 
-                <a className="icon-rota hvr-pulse-grow" href="novo-cidadao.html">
+                <a className="icon-rota hvr-pulse-grow" href="/cadastro">
                     <span className="icon is-large has-text-success">
                         <i className="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
                     </span>
